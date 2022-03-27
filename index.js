@@ -23,6 +23,8 @@ document.onkeydown = (e) => {
 
     // move stuff
     vehicle.style.transition = '1s' // takes 6 seconds to arrive
+    vehicle.style.backgroundColor = 'red'
+    vehicle.style.color = 'black'
   }
   else if(e.key == '2'){
     isWalking = true
@@ -33,6 +35,8 @@ document.onkeydown = (e) => {
 
     // move stuff
     vehicle.style.transition = '6s' // takes 2 seconds to arrive
+    vehicle.style.backgroundColor = 'red'
+    vehicle.style.color = 'black'
   }
   else if(e.key == '3'){
     isWalking = false

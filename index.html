@@ -2,13 +2,21 @@
 <html>
 	<head>
     <style>
+      :root {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
       #vehicle {
         width: 200px;
         height: 200px;
         background-color: red;
         display: grid;
         place-items:center;
-        position: relative;
+        position: absolute;
+        transition: 2s;
+        top: 0;
+        left: 0;
       }
     </style>
 		<script defer type="text/javascript" src="./index.js"></script>

@@ -1,67 +1,93 @@
+class OVNI {
+  constructor() {
+    this.backgroundColor = "black"
+    this.textColor = "white"
+    this.x = 0
+    this.y = 0
+    
+    this.transitionTime = '0'
+    this.backgroundColor = 'lightgrey'
+    this.textColor = 'black'
+    this.text = 'off'
+  }
+
+  move(mode) {
+    const modes = {
+      flying: {
+        transitionTime: 1,
+        backgroundColor: 'red',
+        textColor: 'black',
+        text: 'I am flying'
+      },
+      walking: {
+        transitionTime: 6,
+        backgroundColor: 'yellow',
+        textColor: 'black',
+        text: 'I am walking'
+      },
+      swimming: {
+        transitionTime: 3,
+        backgroundColor: 'lightblue',
+        textColor: 'black',
+        text: 'I am swimming'
+      },
+    } 
+    const selectedMode = modes[mode]
+    this.transitionTime = selectedMode.transitionTime
+    this.backgroundColor = selectedMode.backgroundColor
+    this.textColor = selectedMode.textColor
+    this.text = selectedMode.text
+  }
+
+  updatePos(x,y){
+    this.x = x
+    this.y = y
+  }
+}
+
 const vehicle = document.getElementById('vehicle')
-let positions = vehicle.getBoundingClientRect()
 
-const { x,y } = positions
-console.log('current positions', x, y)
-let _x = x, _y = y;
-let acceleration = 4 // walking
-// let acceleration = 2 // flying
-
-// Walking true by default
-let isWalking = false
-let isFlying = false
-let isSwimming = false
-let modeName = ''
+const vehicleObject = new OVNI(vehicle)
+print(vehicle, vehicleObject)
 
 document.onkeydown = (e) => {
+
   if(e.key== '1'){
     // flying
-    isFlying = true
-    isWalking = false
-    isSwimming = false
-    modeName = 'flying'
-
-    // move stuff
-    vehicle.style.transition = '1s' // takes 6 seconds to arrive
-    vehicle.style.backgroundColor = 'red'
-    vehicle.style.color = 'black'
+    vehicleObject.move('walking')
   }
   else if(e.key == '2'){
-    isWalking = true
-    isFlying = false
-    isSwimming = false
-    modeName = 'walking'
-
-
-    // move stuff
-    vehicle.style.transition = '6s' // takes 2 seconds to arrive
-    vehicle.style.backgroundColor = 'red'
-    vehicle.style.color = 'black'
+    vehicleObject.move('flying')
   }
   else if(e.key == '3'){
-    isWalking = false
-    isFlying = false
-    isSwimming = true
-    modeName = 'swimming'
-
-    // move stuff
-    vehicle.style.transition = '3s' // takes 3 seconds to arrive
-    vehicle.style.backgroundColor = 'blue'
-    vehicle.style.color = 'white'
+    vehicleObject.move('swimming')
   }
 
-  vehicle.innerHTML = `I am a vehicle ${modeName}`
+  print(vehicle, vehicleObject)
 }
+
+
+function print(vehicleRef, vehicleObject){
+  const { textColor, text, backgroundColor, transitionTime } = vehicleObject
+  
+  vehicleRef.style.backgroundColor = backgroundColor
+  vehicleRef.style.color = textColor
+  vehicleRef.innerText = text
+  vehicleRef.style.transition = transitionTime + 's'
+  vehicleRef.style.transitionProperty = 'left, top'
+} 
 
 document.onmousedown = (e) => {
   const x = e.x
   const y = e.y
 
-  if(!isWalking && !isFlying && !isSwimming) return
+  vehicleObject.updatePos(x,y)
+  const { x: vehicleX, y: vehicleY } = vehicleObject
 
-  vehicle.style.setProperty('left', x + 'px')
-  vehicle.style.setProperty('top', y + 'px')
+  vehicle.style.setProperty('left', vehicleX + 'px')
+  vehicle.style.setProperty('top', vehicleY + 'px')
 }
+
 
 
 

@@ -1,41 +1,52 @@
 class Fly {
-  move(){
-    return {
-      transitionTime: 1,
-      backgroundColor: 'red',
-      textColor: 'black',
-      text: 'I am flying'
-    }
+  move(ref){
+    ref.style.backgroundColor = 'red'
+    ref.style.color = 'black'
+    ref.innerText = 'I am flying'
+    ref.style.transition =  '1s'
+    ref.style.transitionProperty = 'left, top'
+    ref.style.opacity = '1'
   }
 }
 class Walking {
-  move(){
-    return {
-      transitionTime: 6,
-      backgroundColor: 'yellow',
-      textColor: 'black',
-      text: 'I am walking'
-    }
+  move(ref){
+    ref.style.backgroundColor = 'yellow'
+    ref.style.color = 'black'
+    ref.innerText = 'I am walking'
+    ref.style.transition =  '6s'
+    ref.style.transitionProperty = 'left, top'
+    ref.style.opacity = '1'
   }
 }
 class Swimming {
-  move(){
-    return {
-        transitionTime: 3,
-        backgroundColor: 'lightblue',
-        textColor: 'black',
-        text: 'I am swimming'
-    }
+  move(ref){
+    ref.style.backgroundColor = 'lightblue'
+    ref.style.color = 'black'
+    ref.innerText = 'I am swimming'
+    ref.style.opacity = '1'
+    ref.style.transition =  '3s'
+    ref.style.transitionProperty = 'left, top'
   }
 }
 class Teleport {
-  move(){
-    return {
-        transitionTime: 0,
-        backgroundColor: 'lightblue',
-        textColor: 'yellow',
-        text: 'I am TELEPORTING'
-    }
+  move(ref){
+    ref.style.backgroundColor = 'black'
+    ref.style.color = 'white'
+    ref.innerText = 'I am teleporting'
+    ref.style.transition =  '0s'
+    ref.style.opacity = '1'
+    ref.style.transitionProperty = 'left, top'
+  }
+}
+class Magitian {
+  move(ref){
+    ref.style.backgroundColor = 'darkblue'
+    ref.style.color = 'white'
+    ref.innerText = 'I am magitian'
+    ref.style.transition = '2s'
+    ref.style.opacity = '0.5'
+    ref.style.transitionProperty = 'opacity, backgroundColor, color'
+    ref.style.borderRadius = '50%'
   }
 }
 
@@ -45,17 +56,17 @@ class Vehicle {
     this.moveBehaviour = null
   }
 
-  move() {
-    const selectedMode = this.moveBehaviour.move() 
-    this.transitionTime = selectedMode.transitionTime
-    this.backgroundColor = selectedMode.backgroundColor
-    this.textColor = selectedMode.textColor
-    this.text = selectedMode.text
+  move(ref) {
+    this.moveBehaviour.move(ref) 
+
+    ref.style.setProperty('left', this.x + 'px')
+    ref.style.setProperty('top', this.y + 'px')
   }
 
-  updatePos(x,y){
+  updatePos(x,y, ref){
     this.x = x
     this.y = y
+    this.move(ref)
   }
 }
 
@@ -84,43 +95,33 @@ document.onkeydown = (e) => {
 
   if(e.key== '1'){
     vehicleObject.moveBehaviour = new Walking()
+    vehicleObject.move(vehicle)
   }
   else if(e.key == '2'){
     vehicleObject.moveBehaviour = new Fly()
+    vehicleObject.move(vehicle)
   }
   else if(e.key == '3'){
     vehicleObject.moveBehaviour = new Swimming()
+    vehicleObject.move(vehicle)
   }
   else if(e.key == '4'){
     vehicleObject.moveBehaviour = new Teleport()
+    vehicleObject.move(vehicle)
   }
-  vehicleObject.move()
-
-  print(vehicle, vehicleObject)
+  else if(e.key == '5'){
+    vehicleObject.moveBehaviour = new Magitian()
+    vehicleObject.move(vehicle)
+  }
 }
-
-
-function print(vehicleRef, vehicleObject){
-  const { textColor, text, backgroundColor, transitionTime } = vehicleObject
-  
-  vehicleRef.style.backgroundColor = backgroundColor
-  vehicleRef.style.color = textColor
-  vehicleRef.innerText = text
-  vehicleRef.style.transition = transitionTime + 's'
-  vehicleRef.style.transitionProperty = 'left, top'
-} 
 
 document.onmousedown = (e) => {
   const x = e.x
   const y = e.y
 
-  if(vehicleObject.moveBehaviour != null){
-    vehicleObject.updatePos(x,y)
-  }
-  const { x: vehicleX, y: vehicleY } = vehicleObject
-
-  vehicle.style.setProperty('left', vehicleX + 'px')
-  vehicle.style.setProperty('top', vehicleY + 'px')
+  if(!vehicleObject.moveBehaviour) return
+  
+  vehicleObject.updatePos(x,y, vehicle)
 }
 
 

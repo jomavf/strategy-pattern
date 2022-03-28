@@ -1,38 +1,62 @@
-class OVNI {
-  constructor() {
-    this.backgroundColor = "black"
-    this.textColor = "white"
-    this.x = 0
-    this.y = 0
-    
-    this.transitionTime = '0'
-    this.backgroundColor = 'lightgrey'
-    this.textColor = 'black'
-    this.text = 'off'
+class Fly {
+  move(){
+    return {
+      transitionTime: 1,
+      backgroundColor: 'red',
+      textColor: 'black',
+      text: 'I am flying'
+    }
   }
-
-  move(mode) {
-    const modes = {
-      flying: {
-        transitionTime: 1,
-        backgroundColor: 'red',
-        textColor: 'black',
-        text: 'I am flying'
-      },
-      walking: {
-        transitionTime: 6,
-        backgroundColor: 'yellow',
-        textColor: 'black',
-        text: 'I am walking'
-      },
-      swimming: {
+}
+class Walking {
+  move(){
+    return {
+      transitionTime: 6,
+      backgroundColor: 'yellow',
+      textColor: 'black',
+      text: 'I am walking'
+    }
+  }
+}
+class Swimming {
+  move(){
+    return {
         transitionTime: 3,
         backgroundColor: 'lightblue',
         textColor: 'black',
         text: 'I am swimming'
-      },
-    } 
-    const selectedMode = modes[mode]
+    }
+  }
+}
+
+class Vehicle {
+
+  constructor() {
+    this.moveBehaviour = null
+  }
+
+  move() {
+    // const modes = {
+    //   flying: {
+    //     transitionTime: 1,
+    //     backgroundColor: 'red',
+    //     textColor: 'black',
+    //     text: 'I am flying'
+    //   },
+    //   walking: {
+    //     transitionTime: 6,
+    //     backgroundColor: 'yellow',
+    //     textColor: 'black',
+    //     text: 'I am walking'
+    //   },
+    //   swimming: {
+    //     transitionTime: 3,
+    //     backgroundColor: 'lightblue',
+    //     textColor: 'black',
+    //     text: 'I am swimming'
+    //   },
+    // } 
+    const selectedMode = this.moveBehaviour.move() 
     this.transitionTime = selectedMode.transitionTime
     this.backgroundColor = selectedMode.backgroundColor
     this.textColor = selectedMode.textColor
@@ -45,6 +69,22 @@ class OVNI {
   }
 }
 
+class OVNI extends Vehicle {
+  constructor() {
+    super()
+    this.backgroundColor = "black"
+    this.textColor = "white"
+    this.x = 0
+    this.y = 0
+    
+    this.transitionTime = '0'
+    this.backgroundColor = 'lightgrey'
+    this.textColor = 'black'
+    this.text = 'off'
+  }
+
+}
+
 const vehicle = document.getElementById('vehicle')
 
 const vehicleObject = new OVNI(vehicle)
@@ -53,15 +93,15 @@ print(vehicle, vehicleObject)
 document.onkeydown = (e) => {
 
   if(e.key== '1'){
-    // flying
-    vehicleObject.move('walking')
+    vehicleObject.moveBehaviour = new Walking()
   }
   else if(e.key == '2'){
-    vehicleObject.move('flying')
+    vehicleObject.moveBehaviour = new Fly()
   }
   else if(e.key == '3'){
-    vehicleObject.move('swimming')
+    vehicleObject.moveBehaviour = new Swimming()
   }
+  vehicleObject.move()
 
   print(vehicle, vehicleObject)
 }
@@ -81,7 +121,9 @@ document.onmousedown = (e) => {
   const x = e.x
   const y = e.y
 
-  vehicleObject.updatePos(x,y)
+  if(vehicleObject.moveBehaviour != null){
+    vehicleObject.updatePos(x,y)
+  }
   const { x: vehicleX, y: vehicleY } = vehicleObject
 
   vehicle.style.setProperty('left', vehicleX + 'px')

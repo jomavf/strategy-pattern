@@ -28,6 +28,16 @@ class Swimming {
     }
   }
 }
+class Teleport {
+  move(){
+    return {
+        transitionTime: 0,
+        backgroundColor: 'lightblue',
+        textColor: 'yellow',
+        text: 'I am TELEPORTING'
+    }
+  }
+}
 
 class Vehicle {
 
@@ -36,26 +46,6 @@ class Vehicle {
   }
 
   move() {
-    // const modes = {
-    //   flying: {
-    //     transitionTime: 1,
-    //     backgroundColor: 'red',
-    //     textColor: 'black',
-    //     text: 'I am flying'
-    //   },
-    //   walking: {
-    //     transitionTime: 6,
-    //     backgroundColor: 'yellow',
-    //     textColor: 'black',
-    //     text: 'I am walking'
-    //   },
-    //   swimming: {
-    //     transitionTime: 3,
-    //     backgroundColor: 'lightblue',
-    //     textColor: 'black',
-    //     text: 'I am swimming'
-    //   },
-    // } 
     const selectedMode = this.moveBehaviour.move() 
     this.transitionTime = selectedMode.transitionTime
     this.backgroundColor = selectedMode.backgroundColor
@@ -100,6 +90,9 @@ document.onkeydown = (e) => {
   }
   else if(e.key == '3'){
     vehicleObject.moveBehaviour = new Swimming()
+  }
+  else if(e.key == '4'){
+    vehicleObject.moveBehaviour = new Teleport()
   }
   vehicleObject.move()
 

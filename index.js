@@ -6,6 +6,7 @@ class Fly {
     ref.style.transition =  '1s'
     ref.style.transitionProperty = 'left, top'
     ref.style.opacity = '1'
+    ref.style.borderRadius = '0px'
   }
 }
 class Walking {
@@ -16,6 +17,7 @@ class Walking {
     ref.style.transition =  '6s'
     ref.style.transitionProperty = 'left, top'
     ref.style.opacity = '1'
+    ref.style.borderRadius = '0px'
   }
 }
 class Swimming {
@@ -26,6 +28,7 @@ class Swimming {
     ref.style.opacity = '1'
     ref.style.transition =  '3s'
     ref.style.transitionProperty = 'left, top'
+    ref.style.borderRadius = '0px'
   }
 }
 class Teleport {
@@ -36,6 +39,7 @@ class Teleport {
     ref.style.transition =  '0s'
     ref.style.opacity = '1'
     ref.style.transitionProperty = 'left, top'
+    ref.style.borderRadius = '0px'
   }
 }
 class Magitian {
